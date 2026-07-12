@@ -15,9 +15,12 @@ export default config({
   //  - En production : passer en mode "github" pour que les bénévoles éditent
   //    depuis un /admin en ligne (chaque enregistrement = un commit).
   //    Renseigner alors le dépôt et créer une GitHub App (voir ADMIN.md), puis
-  //    lancer avec la variable d'environnement KEYSTATIC_STORAGE=github.
+  //    lancer avec la variable d'environnement PUBLIC_KEYSTATIC_STORAGE=github.
+  //    (Préfixe PUBLIC_ obligatoire : ce fichier est aussi chargé côté navigateur
+  //    par l'interface Keystatic ; seul import.meta.env y expose la variable —
+  //    process.env n'existe pas dans le navigateur.)
   storage:
-    process.env.KEYSTATIC_STORAGE === 'github'
+    import.meta.env.PUBLIC_KEYSTATIC_STORAGE === 'github'
       ? { kind: 'github', repo: 'VOTRE-ORG/cpb-site' } // ← à compléter
       : { kind: 'local' },
 

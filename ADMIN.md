@@ -48,11 +48,14 @@ chaque enregistrement créant un **commit** sur GitHub. Étapes :
 3. **Définir les variables d'environnement** (chez l'hébergeur, ou dans un
    fichier `.env` local non commité) :
    ```
-   KEYSTATIC_STORAGE=github
+   PUBLIC_KEYSTATIC_STORAGE=github
    KEYSTATIC_GITHUB_CLIENT_ID=…
    KEYSTATIC_GITHUB_CLIENT_SECRET=…
    KEYSTATIC_SECRET=…
    ```
+   (`PUBLIC_KEYSTATIC_STORAGE` porte le préfixe `PUBLIC_` car `keystatic.config.ts`
+   est aussi exécuté côté navigateur : seule une variable préfixée y est lisible
+   via `import.meta.env`. Les trois autres restent côté serveur uniquement.)
 4. **Donner accès** aux bénévoles éditeurs : ils devront disposer d'un compte
    GitHub avec accès au dépôt. (C'est la contrepartie du mode GitHub. Si l'on
    veut éviter les comptes GitHub pour les éditeurs, envisager Keystatic Cloud —
