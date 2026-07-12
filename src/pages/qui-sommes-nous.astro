@@ -7,16 +7,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="eyebrow">L'association</p>
       <h1>Qui sommes-nous</h1>
       <hr class="river-rule" aria-hidden="true" />
-      <p class="lede">Culture et Patrimoine en Boisset est une association loi 1901 qui œuvre pour la mise en valeur du patrimoine, de l'histoire et de l'environnement de nos communes.</p>
+      <p class="lede">Association loi 1901 créée en 2001, Culture et Patrimoine en Boisset œuvre à rendre la culture, sous toutes ses formes, accessible à tous.</p>
+
+      <figure class="illustration">
+        <img
+          src="/illustration-boisset.jpg"
+          alt="Illustration au crayon de couleur : une tour de pierre ancienne, une feuille de vigne et une grappe de raisin doré."
+          width="533"
+          height="616"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
 
       <h2>Notre objet</h2>
-      <p><!-- TODO comité : reprendre l'objet exact des statuts -->Présentez ici les missions de l'association : culture, patrimoine, expression, environnement, histoire.</p>
-
-      <h2>Le conseil d'administration</h2>
-      <p><!-- TODO : liste des membres du bureau (président·e, trésorier·ère, secrétaire) -->À compléter.</p>
+      <p>Notre siège est à Saint Vincent de Boisset, mais l'association vit sur les deux communes de Boisset — Saint Vincent et Notre Dame — et se montre particulièrement active sur la rive droite de la Loire.</p>
+      <p>Nos actions s'organisent autour de trois champs :</p>
+      <ul class="champs">
+        <li><strong>Patrimoine</strong> — qu'il soit architectural, historique, immatériel ou naturel.</li>
+        <li><strong>Expression</strong> — verbale, picturale, graphique, sculpture, et toute forme de communication vers autrui.</li>
+        <li><strong>Environnement</strong> — sa découverte comme son adaptation à l'actualité.</li>
+      </ul>
 
       <h2>Notre histoire</h2>
-      <p><!-- TODO : historique de l'association depuis sa création -->À compléter.</p>
+      <p>Fondée en 2001 par des bénévoles, l'association fait vivre le patrimoine et la culture de la rive droite de la Loire depuis plus de vingt ans.<!-- TODO comité : compléter l'historique (temps forts, évolutions marquantes). --></p>
+
+      <h2>Le conseil d'administration</h2>
+      <p><!-- TODO comité : liste des membres du bureau (président·e, trésorier·ère, secrétaire). -->À compléter.</p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .illustration {
+    margin: 0;
+    text-align: center;
+  }
+  .illustration img {
+    max-width: min(360px, 100%);
+    height: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--stone-line);
+  }
+  .champs {
+    padding-left: 1.2rem;
+    max-width: var(--measure);
+  }
+  .champs li + li {
+    margin-top: 0.4rem;
+  }
+</style>
