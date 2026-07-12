@@ -1,0 +1,16 @@
+{
+  "name": "cpb-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Site web de l'association Culture et Patrimoine en Boisset",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.14.1"
+  }
+}

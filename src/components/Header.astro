@@ -1,0 +1,64 @@
+---
+const liens = [
+  { href: '/', texte: 'Accueil' },
+  { href: '/qui-sommes-nous', texte: 'Qui sommes-nous' },
+  { href: '/activites', texte: 'Activités' },
+  { href: '/agenda', texte: 'Agenda' },
+  { href: '/actualites', texte: 'Actualités' },
+  { href: '/galerie', texte: 'Galerie' },
+  { href: '/adhesion', texte: 'Adhésion' },
+  { href: '/infos-pratiques', texte: 'Contact' },
+];
+const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand" aria-label="Accueil — Culture et Patrimoine en Boisset">
+      <span class="brand__name">Culture &amp; Patrimoine</span>
+      <span class="brand__place">en Boisset</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu-principal">Menu</button>
+    <nav id="menu-principal" class="site-nav" aria-label="Navigation principale">
+      <ul>
+        {liens.map((l) => (
+          <li>
+            <a href={l.href} aria-current={chemin === l.href.replace(/\/$/, '') || (l.href === '/' && chemin === '/') ? 'page' : undefined}>
+              {l.texte}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { background: var(--paper); border-bottom: 1px solid var(--stone-line); position: sticky; top: 0; z-index: 20; }
+  .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.9rem; flex-wrap: wrap; }
+  .brand { display: flex; flex-direction: column; line-height: 1.05; text-decoration: none; }
+  .brand__name { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; color: var(--ink); }
+  .brand__place { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--river); }
+  .site-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; margin: 0; padding: 0; }
+  .site-nav a { text-decoration: none; color: var(--ink-soft); font-weight: 500; font-size: 0.98rem; padding: 0.2rem 0; border-bottom: 2px solid transparent; }
+  .site-nav a:hover { color: var(--ink); }
+  .site-nav a[aria-current="page"] { color: var(--river-deep); border-bottom-color: var(--river); }
+  .nav-toggle { display: none; }
+  @media (max-width: 720px) {
+    .nav-toggle { display: inline-block; background: var(--river); color: #fff; border: 0; border-radius: var(--radius); padding: 0.5rem 0.9rem; font: inherit; font-weight: 600; cursor: pointer; }
+    .site-nav { width: 100%; display: none; }
+    .site-nav[data-open] { display: block; }
+    .site-nav ul { flex-direction: column; gap: 0; }
+    .site-nav li { border-top: 1px solid var(--stone-line); }
+    .site-nav a { display: block; padding: 0.7rem 0; }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('menu-principal');
+  btn?.addEventListener('click', () => {
+    const open = nav?.hasAttribute('data-open');
+    if (open) { nav?.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
+    else { nav?.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
+  });
+</script>

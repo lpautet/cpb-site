@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const maintenant = new Date();
+const tous = (await getCollection('evenements', (e) => !e.data.brouillon));
+const aVenir = tous.filter((e) => e.data.date >= maintenant).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const passes = tous.filter((e) => e.data.date < maintenant).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmt = (d: Date) => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+---
+<BaseLayout titre="Agenda" description="Les prochains rendez-vous de l'association Culture et Patrimoine en Boisset.">
+  <section class="section">
+    <div class="container stack">
+      <p class="eyebrow">Agenda</p>
+      <h1>Nos rendez-vous</h1>
+      <p class="lede">Ateliers, sorties, conférences et manifestations organisés par l'association.</p>
+      <hr class="river-rule" aria-hidden="true" />
+
+      <h2>À venir</h2>
+      {aVenir.length === 0 ? <p>Aucun événement programmé pour le moment.</p> : (
+        <div class="grid">
+          {aVenir.map((e) => (
+            <article class="card">
+              <time datetime={e.data.date.toISOString()}>{fmt(e.data.date)}</time>
+              <h3>{e.data.titre}</h3>
+              {e.data.lieu && <p style="color:var(--ink-soft);font-size:.92rem;">{e.data.lieu}</p>}
+              {e.data.resume && <p>{e.data.resume}</p>}
+            </article>
+          ))}
+        </div>
+      )}
+
+      {passes.length > 0 && (
+        <>
+          <h2 style="margin-top:2.5rem;">Manifestations passées</h2>
+          <div class="grid">
+            {passes.map((e) => (
+              <article class="card">
+                <time datetime={e.data.date.toISOString()}>{fmt(e.data.date)}</time>
+                <h3>{e.data.titre}</h3>
+                {e.data.resume && <p>{e.data.resume}</p>}
+              </article>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+</BaseLayout>

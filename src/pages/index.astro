@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Prochains événements (à venir), triés par date croissante
+const maintenant = new Date();
+const evenements = (await getCollection('evenements', (e) => !e.data.brouillon))
+  .filter((e) => e.data.date >= maintenant)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+  .slice(0, 3);
+
+// Dernières actualités, triées par date décroissante
+const actualites = (await getCollection('actualites', (a) => !a.data.brouillon))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const fmtDate = (d: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+---
+
+<BaseLayout titre="Accueil">
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Association loi 1901 · Rive droite de la Loire</p>
+      <h1>Faire vivre la culture et le patrimoine de nos communes</h1>
+      <p class="lede">
+        Culture et Patrimoine en Boisset réunit habitants et passionnés autour de
+        l'histoire, du patrimoine bâti, de l'expression et de l'environnement de notre territoire.
+      </p>
+      <hr class="river-rule" aria-hidden="true" />
+      <p class="hero__actions">
+        <a class="btn btn--primary" href="/adhesion">Adhérer à l'association</a>
+        <a class="btn btn--ghost" href="/agenda">Voir l'agenda</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Agenda : prochains événements -->
+  <section class="section section--stone">
+    <div class="container">
+      <p class="eyebrow">À venir</p>
+      <h2>Prochains rendez-vous</h2>
+      {evenements.length === 0 ? (
+        <p class="lede">Aucun événement programmé pour le moment — revenez bientôt.</p>
+      ) : (
+        <div class="grid">
+          {evenements.map((e) => (
+            <article class="card">
+              <time datetime={e.data.date.toISOString()}>{fmtDate(e.data.date)}</time>
+              <h3>{e.data.titre}</h3>
+              {e.data.lieu && <p style="color:var(--ink-soft);font-size:0.92rem;margin:0 0 .5rem;">{e.data.lieu}</p>}
+              {e.data.resume && <p>{e.data.resume}</p>}
+            </article>
+          ))}
+        </div>
+      )}
+      <p style="margin-top:1.5rem;"><a href="/agenda">Tout l'agenda →</a></p>
+    </div>
+  </section>
+
+  <!-- Dernières actualités -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Actualités</p>
+      <h2>Les dernières nouvelles</h2>
+      <div class="grid">
+        {actualites.map((a) => (
+          <article class="card">
+            <time datetime={a.data.date.toISOString()}>{fmtDate(a.data.date)}</time>
+            <h3><a href={`/actualites/${a.id}`} style="text-decoration:none;color:var(--ink);">{a.data.titre}</a></h3>
+            {a.data.resume && <p>{a.data.resume}</p>}
+          </article>
+        ))}
+      </div>
+      <p style="margin-top:1.5rem;"><a href="/actualites">Toutes les actualités →</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(3rem, 8vw, 6rem); }
+  .hero h1 { max-width: 16ch; }
+  .hero__actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
+</style>

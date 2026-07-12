@@ -1,0 +1,128 @@
+/* =========================================================================
+   Culture et Patrimoine en Boisset — système de design
+   Palette ancrée dans le paysage ligérien : pierre de tuffeau, ardoise de
+   Loire, ocre patrimonial. Volontairement éloignée des gabarits génériques.
+   ========================================================================= */
+
+:root {
+  /* Couleurs */
+  --paper:      #FBFAF7; /* fond principal, blanc chaud */
+  --stone:      #EDE7DB; /* pierre de tuffeau, fonds de section */
+  --stone-line: #D8CFBF; /* filets, bordures discrètes */
+  --ink:        #22201C; /* texte principal */
+  --ink-soft:   #55504A; /* texte secondaire */
+  --river:      #2F5D62; /* ardoise de Loire — couleur d'accent principale */
+  --river-deep: #1E3D40; /* variante foncée — pied de page, survols */
+  --ochre:      #9C6B24; /* ocre patrimonial — liens, détails */
+
+  /* Typographie */
+  --font-display: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Échelle & rythme */
+  --measure: 68ch;      /* largeur de lecture confortable */
+  --container: 1120px;
+  --radius: 6px;
+  --gap: 1.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0 0 0.5em;
+  letter-spacing: -0.01em;
+}
+h1 { font-size: clamp(2rem, 4.5vw, 3.1rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+h3 { font-size: 1.3rem; }
+
+p { margin: 0 0 1rem; max-width: var(--measure); }
+
+a { color: var(--ochre); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--river-deep); }
+
+:focus-visible {
+  outline: 3px solid var(--river);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Mise en page ------------------------------------------------------------ */
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: 1.25rem; }
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section--stone { background: var(--stone); border-block: 1px solid var(--stone-line); }
+.stack > * + * { margin-top: 1rem; }
+.lede { font-size: 1.2rem; color: var(--ink-soft); max-width: var(--measure); }
+
+/* Filet « rivière » — motif signature, évoque le cours de la Loire -------- */
+.river-rule { border: 0; height: 8px; width: 120px; margin: 1.5rem 0; color: var(--river);
+  background: none; }
+.river-rule svg { width: 100%; height: 100%; display: block; }
+
+/* Eyebrow / intitulé de section ------------------------------------------ */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--river);
+  margin: 0 0 0.6rem;
+}
+
+/* Boutons ----------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  font-family: var(--font-body);
+  padding: 0.7rem 1.3rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.btn--primary { background: var(--river); color: #fff; }
+.btn--primary:hover { background: var(--river-deep); color: #fff; }
+.btn--ghost { border: 1px solid var(--river); color: var(--river); }
+.btn--ghost:hover { background: var(--river); color: #fff; }
+
+/* Grilles de cartes ------------------------------------------------------- */
+.grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.card {
+  background: var(--paper);
+  border: 1px solid var(--stone-line);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+}
+.section--stone .card { background: #fff; }
+.card h3 { margin-top: 0; }
+.card time { display: block; font-size: 0.85rem; color: var(--river); font-weight: 600; margin-bottom: 0.3rem; }
+
+/* Accessibilité : lien d'évitement --------------------------------------- */
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 100;
+  background: var(--river); color: #fff; padding: 0.6rem 1rem; border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus { left: 0; color: #fff; }

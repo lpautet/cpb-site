@@ -1,0 +1,31 @@
+---
+const annee = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div>
+      <p class="site-footer__brand">Culture et Patrimoine en Boisset</p>
+      <p class="site-footer__note">Association loi 1901 — culture, patrimoine, histoire et environnement.</p>
+    </div>
+    <nav aria-label="Liens de bas de page">
+      <ul>
+        <li><a href="/infos-pratiques">Contact</a></li>
+        <li><a href="/documents">Documents officiels</a></li>
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+        <li><a href="/politique-de-confidentialite">Confidentialité</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container"><p class="site-footer__copy">© {annee} Culture et Patrimoine en Boisset. Tous droits réservés.</p></div>
+</footer>
+
+<style>
+  .site-footer { background: var(--river-deep); color: #E8EEEC; margin-top: 3rem; padding-block: 2.5rem 1.5rem; }
+  .site-footer__inner { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .site-footer__brand { font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.2rem; color: #fff; }
+  .site-footer__note { margin: 0; color: #B9CBC8; font-size: 0.92rem; }
+  .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+  .site-footer a { color: #E8EEEC; text-decoration: none; }
+  .site-footer a:hover { color: #fff; text-decoration: underline; }
+  .site-footer__copy { margin: 2rem 0 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.85rem; color: #9DB4B0; }
+</style>

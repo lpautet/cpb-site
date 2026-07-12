@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const actualites = await getCollection('actualites', (a) => !a.data.brouillon);
+  return actualites.map((a) => ({ params: { slug: a.id }, props: { article: a } }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const fmt = (d: Date) => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+---
+<BaseLayout titre={article.data.titre} description={article.data.resume}>
+  <section class="section">
+    <div class="container stack" style="max-width:760px;">
+      <p class="eyebrow"><a href="/actualites" style="color:var(--river);">← Actualités</a></p>
+      <h1>{article.data.titre}</h1>
+      <time datetime={article.data.date.toISOString()} style="color:var(--river);font-weight:600;">{fmt(article.data.date)}</time>
+      <hr class="river-rule" aria-hidden="true" />
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose :global(p) { margin-bottom: 1rem; }
+  .prose :global(h2) { margin-top: 2rem; }
+</style>

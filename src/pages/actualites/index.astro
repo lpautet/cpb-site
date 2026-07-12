@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const actualites = (await getCollection('actualites', (a) => !a.data.brouillon))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const fmt = (d: Date) => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+---
+<BaseLayout titre="Actualités" description="Les dernières nouvelles de l'association.">
+  <section class="section">
+    <div class="container stack">
+      <p class="eyebrow">Actualités</p>
+      <h1>Les nouvelles de l'association</h1>
+      <hr class="river-rule" aria-hidden="true" />
+      <div class="grid">
+        {actualites.map((a) => (
+          <article class="card">
+            <time datetime={a.data.date.toISOString()}>{fmt(a.data.date)}</time>
+            <h3><a href={`/actualites/${a.id}`} style="text-decoration:none;color:var(--ink);">{a.data.titre}</a></h3>
+            {a.data.resume && <p>{a.data.resume}</p>}
+            <p><a href={`/actualites/${a.id}`}>Lire la suite →</a></p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
