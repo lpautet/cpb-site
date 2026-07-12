@@ -74,7 +74,7 @@ Une fois poussé sur GitHub, l'hébergeur reconstruit le site automatiquement.
 
 ## À faire ensuite (feuille de route)
 
-### 1. Interface d'administration (pour les bénévoles)
+### 1. Interface d'administration — DÉJÀ ÉCHAFAUDÉE (voir ADMIN.md)
 Permettre à des non-informaticiens d'ajouter actualités/événements via une page
 `/admin`, sans toucher au code. Deux pistes recommandées, hors Netlify :
 - **Keystatic** — intégration native Astro, authentification GitHub incluse

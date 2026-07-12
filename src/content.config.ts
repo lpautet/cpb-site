@@ -9,24 +9,24 @@ import { glob } from 'astro/loaders';
    ------------------------------------------------------------------------- */
 
 const actualites = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/actualites' }),
+  loader: glob({ pattern: '**/*.mdoc', base: './src/content/actualites' }),
   schema: z.object({
     titre: z.string(),
     date: z.coerce.date(),
     resume: z.string().optional(),
-    image: z.string().optional(),
+    image: z.string().nullish(),
     brouillon: z.boolean().default(false),
   }),
 });
 
 const evenements = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/evenements' }),
+  loader: glob({ pattern: '**/*.mdoc', base: './src/content/evenements' }),
   schema: z.object({
     titre: z.string(),
     date: z.coerce.date(),          // date de l'événement
     lieu: z.string().optional(),
     resume: z.string().optional(),
-    image: z.string().optional(),
+    image: z.string().nullish(),
     brouillon: z.boolean().default(false),
   }),
 });

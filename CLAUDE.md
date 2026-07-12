@@ -10,10 +10,12 @@ patrimoine / histoire / culture / environnement) — un **site statique Astro**,
 
 ## Principes non négociables
 
-1. **100 % statique.** Le site se compile en fichiers HTML/CSS/JS. Pas de serveur
-   applicatif permanent, pas de base de données. Si une fonctionnalité semble
-   exiger un backend (formulaire, authentification), on passe par un service
-   externe ou une petite fonction — jamais par un serveur à administrer.
+1. **Site public statique.** Toutes les pages publiques se compilent en fichiers
+   HTML/CSS/JS. Pas de base de données. Seule exception assumée : les routes de
+   l'admin Keystatic (`/keystatic`, `/api/keystatic`) tournent « à la demande »
+   côté serveur, uniquement pendant l'édition (voir ADMIN.md). Le site que
+   visitent les gens, lui, reste sans serveur. Pour tout autre besoin (formulaire),
+   passer par un service externe ou une petite fonction — jamais un serveur à administrer.
 2. **Tout en français.** Interface, contenu, noms de fichiers de contenu, messages.
 3. **Souveraineté des données.** Préférence forte pour des dépendances et services
    européens. Éviter d'ajouter des services tiers américains quand une alternative
@@ -29,8 +31,11 @@ patrimoine / histoire / culture / environnement) — un **site statique Astro**,
 
 ## Stack & architecture
 
-- **Astro 5**, sortie statique (`output: 'static'`).
-- Contenu géré par les **collections Astro** (voir `content.config.ts`).
+- **Astro 5**, `output: 'static'` (pages pré-générées) + adaptateur `@astrojs/node`
+  pour les seules routes admin. Intégrations : `react`, `markdoc`, `keystatic`.
+- Contenu géré par les **collections Astro** (voir `content.config.ts`), au format
+  **Markdoc** (`.mdoc`) pour rester compatible avec l'éditeur Keystatic.
+- **Admin : Keystatic** (`keystatic.config.ts`) — voir **ADMIN.md**.
 - Pas de framework d'UI (React/Vue…) tant que ce n'est pas nécessaire. Si un besoin
   d'interactivité apparaît, préférer un peu de JavaScript vanilla, ou une île Astro
   ciblée — pas une SPA.
@@ -50,9 +55,10 @@ Deux collections, chacune = un dossier de fichiers Markdown :
 - `actualites` : champs `titre`, `date`, `resume?`, `image?`, `brouillon`.
 - `evenements` : champs `titre`, `date`, `lieu?`, `resume?`, `image?`, `brouillon`.
 
-Ajouter un contenu = ajouter un fichier `.md`. `brouillon: true` masque l'entrée.
-Ne pas changer les noms de champs sans mettre à jour `content.config.ts` **et**
-les pages qui les consomment (`index`, `agenda`, `actualites/`).
+Ajouter un contenu = ajouter un fichier `.mdoc` (ou le créer via `/keystatic`).
+`brouillon: true` masque l'entrée. Ne pas changer les noms de champs sans mettre à
+jour `content.config.ts`, **`keystatic.config.ts`** ET les pages qui les consomment
+(`index`, `agenda`, `actualites/`). Ces trois fichiers doivent rester synchronisés.
 
 ## Design
 
@@ -72,11 +78,10 @@ de nouvelle couleur ou police sans raison, et préserver l'élément signature
 
 ## Feuille de route — quoi faire ensuite (par ordre de priorité)
 
-1. **Interface d'administration** pour les bénévoles (route `/admin`).
-   Recommandation : **Keystatic** (intégration Astro native + authentification
-   GitHub incluse ; évite de recréer le service d'auth que fournissait Netlify).
-   Configurer les collections `actualites` et `evenements` avec les mêmes champs
-   que `content.config.ts`. Sveltia CMS est l'alternative si l'on préfère l'UI Decap.
+1. **Interface d'administration — ÉCHAFAUDÉE (Keystatic).** Fonctionne en local
+   (`npm run dev` → `/keystatic`). Reste à faire pour la production : créer la
+   GitHub App, passer `storage` en mode `github`, aligner l'adaptateur sur
+   l'hébergeur. **Tout est détaillé dans ADMIN.md** — commencer par là.
 2. **Formulaire de contact.** Le squelette existe (masqué) dans
    `infos-pratiques.astro`, avec piège à robots (`website`). L'activer via un
    service d'envoi (privilégier une option européenne / respectueuse du RGPD) ou
